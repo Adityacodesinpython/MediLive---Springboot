@@ -12,7 +12,10 @@ public class UserMapper {
                 userEntity.getPassWord(),
                 userEntity.getFirstName(),
                 userEntity.getLastName(),
-                userEntity.getRoles()
+                userEntity.getRoles(),
+                userEntity.getDoctorAssigned(),
+                userEntity.getDayShiftNurseAssigned(),
+                userEntity.getNightShiftNurseAssigned()
         );
     }
 
@@ -23,7 +26,10 @@ public class UserMapper {
                 userDto.getPassWord(),
                 userDto.getFirstName(),
                 userDto.getLastName(),
-                userDto.getRoles()
+                userDto.getRoles(),
+                userDto.getDoctorAssigned(),
+                userDto.getDayShiftNurseAssigned(),
+                userDto.getNightShiftNurseAssigned()
         );
     }
 }

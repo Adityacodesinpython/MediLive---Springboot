@@ -5,24 +5,20 @@ import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
-
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class DoctorDto {
-    private Long doctorId;
+public class NurseDto {
+    private Long nurseId;
 
     private String userName;
 
     private String passWord;
 
-    private String department;
+    private String[] dayShifts;
 
-    private String isAvailable;
-
-    private String inAnEmergency;
+    private String[] nightShifts;
 
     private UserEntity userEntity;
 

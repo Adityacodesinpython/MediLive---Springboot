@@ -8,20 +8,26 @@ public class DoctorMapper {
     public static DoctorDto mapToDoctorDto(DoctorEntity doctorEntity) {
         return new DoctorDto(
                 doctorEntity.getDoctorId(),
-                doctorEntity.getName(),
+                doctorEntity.getUserName(),
+                doctorEntity.getPassWord(),
                 doctorEntity.getDepartment(),
                 doctorEntity.getIsAvailable(),
-                doctorEntity.getInAnEmergency()
+                doctorEntity.getInAnEmergency(),
+                doctorEntity.getUserEntity(),
+                doctorEntity.getRoles()
         );
     }
 
     public static DoctorEntity mapToDoctorEntity(DoctorDto doctorDto) {
         return new DoctorEntity(
                 doctorDto.getDoctorId(),
-                doctorDto.getName(),
+                doctorDto.getUserName(),
+                doctorDto.getPassWord(),
                 doctorDto.getDepartment(),
                 doctorDto.getIsAvailable(),
-                doctorDto.getInAnEmergency()
+                doctorDto.getInAnEmergency(),
+                doctorDto.getUserEntity(),
+                doctorDto.getRoles()
         );
     }
 }

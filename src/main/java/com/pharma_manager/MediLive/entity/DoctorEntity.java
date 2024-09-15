@@ -15,13 +15,17 @@ import lombok.NonNull;
 public class DoctorEntity {
 
     @Id
-    @SequenceGenerator(name="my_seq", allocationSize=1)
+    @SequenceGenerator(name="my_seq",sequenceName="doctor_seq", allocationSize=1)
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "my_seq")
     private Long doctorId;
 
     @NonNull
-    @Column(name = "name")
-    private String name;
+    @Column(name = "username")
+    private String userName;
+
+//    @NonNull
+    @Column(name = "password")
+    private String passWord;
 
     @Column(name = "department")
     private String department;
@@ -32,4 +36,10 @@ public class DoctorEntity {
     @Column(name = "inAnEmergency")
     private String inAnEmergency;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id")
+    private UserEntity userEntity;
+
+    @Column(name = "roles", columnDefinition = "TEXT[]")
+    private String[] roles;
 }

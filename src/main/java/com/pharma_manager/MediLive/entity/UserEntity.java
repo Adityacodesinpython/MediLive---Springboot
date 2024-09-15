@@ -1,11 +1,9 @@
 package com.pharma_manager.MediLive.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
+import lombok.*;
 
+@Builder
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -34,7 +32,15 @@ public class UserEntity {
     @Column(name = "last_name")
     private String lastName;
 
-
     @Column(name = "roles", columnDefinition = "TEXT[]")
     private String[] roles;
+
+    @Column(name = "doctor_id")
+    private Long doctorAssigned;
+
+    @Column(name = "day_nurse_id")
+    private Long dayShiftNurseAssigned;
+
+    @Column(name = "night_nurse_id")
+    private Long nightShiftNurseAssigned;
 }

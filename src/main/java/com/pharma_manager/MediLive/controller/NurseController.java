@@ -1,63 +1,46 @@
 package com.pharma_manager.MediLive.controller;
 
-import com.pharma_manager.MediLive.entity.NurseEntity;
+import com.pharma_manager.MediLive.dto.NurseDto;
+import com.pharma_manager.MediLive.dto.UserDto;
+import com.pharma_manager.MediLive.service.NurseService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
 
 @RestController
 @RequestMapping("/nurse")
 public class NurseController {
-    private List<NurseEntity> listOfNurses = new ArrayList<>();
 
-    @GetMapping()
-    public List<NurseEntity> getALlNurses() {
-        return listOfNurses;
+    @Autowired
+    private NurseService nurseService;
+
+    @GetMapping("/patient")
+    public ResponseEntity<UserDto> getAllottedPatientInfo() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userName = authentication.getName();
+
+        return new ResponseEntity<>(nurseService.getPatientInfo(userName), HttpStatus.OK);
     }
 
-    @PostMapping()
-    public boolean createNurse(@RequestBody NurseEntity nurseInfo) {
+    @PutMapping()
+    public ResponseEntity<NurseDto> updateNurse(@RequestBody NurseDto nurseInfo) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userName = authentication.getName();
 
-        listOfNurses.add(nurseInfo);
-        return true;
+        NurseDto updatedNurse = nurseService.updateNurse(userName, nurseInfo);
+        return new ResponseEntity<>(updatedNurse, HttpStatus.OK);
     }
 
-    @PutMapping("/id/{id}")
-    public boolean updateNurse(@PathVariable String id, @RequestBody NurseEntity nurseInfo) {
-        for (NurseEntity nurse: listOfNurses) {
-            if (Objects.equals(nurse.getNurseId(), id)){
-                nurse.setName(nurseInfo.getName());
-                nurse.setIsAvailable(nurseInfo.getIsAvailable());
-                return true;
-            }
-        }
-        return false;
-    }
+    @DeleteMapping()
+    public ResponseEntity<String> deleteNurse() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userName = authentication.getName();
 
-    @DeleteMapping("/id/{id}")
-    public boolean deleteNurse(@PathVariable String id) {
-        for (NurseEntity nurse: listOfNurses) {
-            if (Objects.equals(nurse.getNurseId(), id)){
-                listOfNurses.remove(nurse);
-                return true;
-            }
-        }
-        return false;
-    }
+        nurseService.deleteByUserName(userName);
 
-    @GetMapping("/get-nurse")
-    public NurseEntity getFreeNurses() {
-
-        for (NurseEntity nurse: listOfNurses ) {
-            if (Objects.equals(nurse.getIsAvailable(), "true")) {
-                nurse.setIsAvailable("false");
-                return nurse;
-            }
-        }
-        // TODO - schedule a nurse for later if none available
-
-        return null;
+        return new ResponseEntity<>("Nurse deleted successfully.", HttpStatus.OK);
     }
 }
