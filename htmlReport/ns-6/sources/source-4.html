@@ -1,0 +1,211 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > UserServiceImpl</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.pharma_manager.MediLive.service.impl</a>
+</div>
+
+<h1>Coverage Summary for Class: UserServiceImpl (com.pharma_manager.MediLive.service.impl)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">UserServiceImpl</td>
+<td class="coverageStat">
+  <span class="percent">
+    22.2%
+  </span>
+  <span class="absValue">
+    (2/9)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    20%
+  </span>
+  <span class="absValue">
+    (6/30)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">UserServiceImpl$$SpringCGLIB$$0</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    22.2%
+  </span>
+  <span class="absValue">
+    (2/9)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    20%
+  </span>
+  <span class="absValue">
+    (6/30)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.pharma_manager.MediLive.service.impl;
+&nbsp;
+&nbsp;import com.pharma_manager.MediLive.dto.UserDto;
+&nbsp;import com.pharma_manager.MediLive.entity.UserEntity;
+&nbsp;import com.pharma_manager.MediLive.exception.ResourceNotFoundException;
+&nbsp;import com.pharma_manager.MediLive.mapper.UserMapper;
+&nbsp;import com.pharma_manager.MediLive.repository.UserRepository;
+&nbsp;import com.pharma_manager.MediLive.service.UserService;
+&nbsp;import jakarta.transaction.Transactional;
+&nbsp;import lombok.AllArgsConstructor;
+&nbsp;import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+&nbsp;import org.springframework.security.crypto.password.PasswordEncoder;
+&nbsp;import org.springframework.stereotype.Service;
+&nbsp;
+&nbsp;import java.util.List;
+&nbsp;import java.util.stream.Collectors;
+&nbsp;
+&nbsp;@Service    // creates a bean/instance of the service to use
+&nbsp;@AllArgsConstructor
+&nbsp;public class UserServiceImpl implements UserService {
+&nbsp;
+&nbsp;    public UserRepository userRepository;
+&nbsp;
+<b class="fc">&nbsp;    private static final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();</b>
+&nbsp;
+&nbsp;    // authenticated/hashed method
+&nbsp;    @Override
+&nbsp;    public UserDto saveNewUser(UserDto userDto) {
+<b class="fc">&nbsp;        UserEntity userEntity = UserMapper.mapToUserEntity(userDto);</b>
+<b class="fc">&nbsp;        userEntity.setPassWord(passwordEncoder.encode(userEntity.getPassWord()));</b>
+<b class="fc">&nbsp;        userEntity.setRoles(new String[]{&quot;USER&quot;});</b>
+<b class="fc">&nbsp;        userRepository.save(userEntity);</b>
+&nbsp;
+<b class="fc">&nbsp;        return UserMapper.mapToUserDto(userEntity);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public UserDto saveUser(UserDto userDto) {
+<b class="nc">&nbsp;        UserEntity userEntity = UserMapper.mapToUserEntity(userDto);</b>
+<b class="nc">&nbsp;        userRepository.save(userEntity);</b>
+&nbsp;
+<b class="nc">&nbsp;        return UserMapper.mapToUserDto(userEntity);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public UserDto findByUserName(String userName) {
+<b class="nc">&nbsp;        return UserMapper.mapToUserDto(userRepository.findByUserName(userName));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public List&lt;UserDto&gt; getAllUsers() {
+<b class="nc">&nbsp;        List&lt;UserEntity&gt; allUsersEntity = userRepository.findAll();</b>
+<b class="nc">&nbsp;        return allUsersEntity.stream().map((oneUserEntity) -&gt; UserMapper.mapToUserDto(oneUserEntity))</b>
+<b class="nc">&nbsp;                .collect(Collectors.toList());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public UserDto getUserById(Long userId) {
+&nbsp;
+<b class="nc">&nbsp;        UserEntity foundUser = userRepository.findById(userId)</b>
+<b class="nc">&nbsp;                .orElseThrow(() -&gt; new ResourceNotFoundException(&quot;There is no user with the ID: &quot; + userId));</b>
+&nbsp;
+<b class="nc">&nbsp;        return UserMapper.mapToUserDto(foundUser);</b>
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public UserDto updateUser(String userName, UserDto updateUserInfo) {
+&nbsp;
+<b class="nc">&nbsp;        UserEntity foundUser = userRepository.findByUserName(userName);</b>
+&nbsp;
+<b class="nc">&nbsp;        foundUser.setUserName(updateUserInfo.getUserName());</b>
+<b class="nc">&nbsp;        foundUser.setPassWord(passwordEncoder.encode(updateUserInfo.getPassWord()));</b>
+<b class="nc">&nbsp;        foundUser.setFirstName(updateUserInfo.getFirstName());</b>
+<b class="nc">&nbsp;        foundUser.setLastName(updateUserInfo.getLastName());</b>
+<b class="nc">&nbsp;        foundUser.setRoles(updateUserInfo.getRoles());</b>
+&nbsp;
+<b class="nc">&nbsp;        UserEntity updatedUser = userRepository.save(foundUser);</b>
+<b class="nc">&nbsp;        return UserMapper.mapToUserDto(updatedUser);</b>
+&nbsp;    }
+&nbsp;    @Transactional
+&nbsp;    @Override
+&nbsp;    public void deleteByUserName(String userName) {
+&nbsp;        //FIXME fix user not found exception
+<b class="nc">&nbsp;        userRepository.deleteByUserName(userName);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public UserDto createAdmin(UserDto userDto) {
+<b class="nc">&nbsp;        UserEntity userEntity = UserMapper.mapToUserEntity(userDto);</b>
+<b class="nc">&nbsp;        userEntity.setPassWord(passwordEncoder.encode(userEntity.getPassWord()));</b>
+<b class="nc">&nbsp;        userEntity.setRoles(new String[]{&quot;USER&quot;, &quot;ADMIN&quot;});</b>
+<b class="nc">&nbsp;        userRepository.save(userEntity);</b>
+&nbsp;
+<b class="nc">&nbsp;        return UserMapper.mapToUserDto(userEntity);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-09-06 18:12</div>
+</div>
+</body>
+</html>

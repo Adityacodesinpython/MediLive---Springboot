@@ -1,0 +1,115 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > UserEntity</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.pharma_manager.MediLive.entity</a>
+</div>
+
+<h1>Coverage Summary for Class: UserEntity (com.pharma_manager.MediLive.entity)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+</tr>
+  <tr>
+    <td class="name">UserEntity$HibernateInstantiator$T2mO9Jf8</td>
+  </tr>
+  <tr>
+    <td class="name">UserEntity$HibernateProxy$RjNW0hZe</td>
+  </tr>
+  <tr>
+    <td class="name">UserEntity$UserEntityBuilder</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.pharma_manager.MediLive.entity;
+&nbsp;
+&nbsp;import jakarta.persistence.*;
+&nbsp;import lombok.*;
+&nbsp;
+&nbsp;@Builder
+&nbsp;@Data
+&nbsp;@AllArgsConstructor
+&nbsp;@NoArgsConstructor
+&nbsp;@Entity
+&nbsp;@Table(name = &quot;users&quot;)
+&nbsp;public class UserEntity {
+&nbsp;
+&nbsp;    @Id
+&nbsp;    @SequenceGenerator(name=&quot;my_seq&quot;, sequenceName=&quot;user_seq&quot;, allocationSize=1)
+&nbsp;    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = &quot;my_seq&quot;)
+&nbsp;    private Long userId;
+&nbsp;
+&nbsp;    @NonNull
+&nbsp;    @Column(name = &quot;username&quot;)
+&nbsp;    private String userName;
+&nbsp;
+&nbsp;    @NonNull
+&nbsp;    @Column(name = &quot;password&quot;)
+&nbsp;    private String passWord;
+&nbsp;
+&nbsp;    @NonNull
+&nbsp;    @Column(name = &quot;first_name&quot;)
+&nbsp;    private String firstName;
+&nbsp;
+&nbsp;    @NonNull
+&nbsp;    @Column(name = &quot;last_name&quot;)
+&nbsp;    private String lastName;
+&nbsp;
+&nbsp;
+&nbsp;    @Column(name = &quot;roles&quot;, columnDefinition = &quot;TEXT[]&quot;)
+&nbsp;    private String[] roles;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-09-06 18:12</div>
+</div>
+</body>
+</html>
